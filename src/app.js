@@ -37,11 +37,12 @@ function card(p) {
   return article;
 }
 function render() {
+  if (!dataset) return;
   const visible = selectPicks(picks,{query:$('search').value,bucket:$('bucket').value,sort:$('sort').value});
   $('picks').replaceChildren(...visible.map(card));
   if (dataset.isDemo) $('status').textContent = `${visible.length} of ${picks.length} demo picks`;
   else {
-    const counts = picks.reduce((all,p) => (all[p.quote.freshness] += 1, all), {live:0,delayed:0,stale:0});
+    const counts = visible.reduce((all,p) => (all[p.quote.freshness] += 1, all), {live:0,delayed:0,stale:0});
     $('status').textContent = `${visible.length} of ${picks.length} picks · ${counts.live} live, ${counts.delayed} delayed, ${counts.stale} stale quotes`;
   }
   if (!visible.length) $('picks').append(element('p','No matches. Try another search or bucket.','empty'));

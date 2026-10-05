@@ -1,5 +1,5 @@
 import { validateDataset } from './model.js';
-// Replace this boundary with a backend API adapter when live data is available.
+// Prefer the backend; static hosts without the API retain the demo fixture.
 export async function loadPicks() {
   const api = await fetch(new URL('../api/picks', import.meta.url));
   if (api.status === 404) {
