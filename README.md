@@ -2,7 +2,7 @@
 
 A practical starting point for a stock advisory research app. Compare ranked stock picks, entry zones, and analyst expectations in a responsive dashboard.
 
-**Demo only:** all five companies, symbols, prices, targets, analyst counts, and rankings are fictional fixtures. This app does not provide live quotes, personalized investment advice, brokerage connectivity, or trade execution.
+**Demo by default:** without a Finnhub API key, the backend returns clearly labeled illustrative quote/target fixtures. With a configured key, Finnhub data is loaded and freshness is shown per quote and target. This app does not provide personalized investment advice, brokerage connectivity, or trade execution.
 
 ## Run locally
 
@@ -16,6 +16,8 @@ npm start
 
 Open http://127.0.0.1:3000. Do not open `index.html` directly: loading JSON and ES modules requires HTTP. `PORT=4000 npm start` changes the port. The development server binds to localhost by default.
 
+To enable the optional backend provider, set `FINNHUB_API_KEY` in the server environment before starting it. Do not put the key in browser code, `data/picks.json`, or a public static host. The frontend calls `/api/picks`; with no backend route, it falls back to the demo fixture.
+
 ```sh
 npm test          # Data validation, filtering, sorting, and upside calculations
 npm run build    # Validate fixtures and copy public assets to dist/
@@ -28,7 +30,7 @@ node scripts/serve.mjs dist  # Preview the build locally
 
 - Five editorially ranked demo picks in Core, Growth, and Speculative buckets.
 - Search by symbol/company, bucket filtering, and sorting by rank, symbol, or average-target upside.
-- Quote, entry zone, low/average/high analyst targets, consensus rating, analyst count, and target horizon.
+- Quote, entry zone, low/average/high analyst targets, consensus rating, analyst count, and target horizon. Provider mode displays quote and target provenance and freshness.
 - Expandable thesis risks and source timestamps, plus loading, empty, failure, and retry states.
 - Accessible labels, keyboard focus styles, responsive cards, and safe text rendering.
 - Runtime data validation, Node tests, and GitHub Actions checks.
@@ -53,9 +55,9 @@ tests/model.test.js     Data and business-rule tests
 
 Edit `data/picks.json` to add demo picks, following [the data contract](docs/data-model.md). Use `analystTargets: null` when there is no coverage. Ranks and IDs must be unique. Run tests and build before committing.
 
-For real data, replace `loadPicks()` in `src/repository.js` with an adapter to a backend that validates and normalizes provider responses. This version intentionally rejects non-demo datasets: remove that guard only alongside accurate live/delayed/stale indicators and an updated disclosure. Never place provider secrets in frontend code or committed JSON; all static assets are publicly readable.
+The optional Finnhub adapter is implemented in `scripts/market-data.mjs` and served by `scripts/serve.mjs`; API credentials remain server-side. Provider integration uses three requests per symbol, a five-minute in-memory cache, five-second timeouts, and at most one retry for transient errors and rate limiting. Without credentials the demo mode remains usable.
 
-Keep provider timestamps and attribution, honor data licensing, and define caching and rate limits. Preserve the separation of quotes, editorial picks, and analyst snapshots. The app currently has no authentication, saved watchlists, database, or live provider integration.
+Finnhub advertises a free $0 plan with a 60-request-per-minute limit and US stock coverage. Real-time access and data redistribution rights depend on exchange entitlements and account terms; the free tier is for personal/non-commercial use. Verify current coverage, delay, costs, and licensing before deployment or commercial display: [pricing](https://finnhub.io/pricing), [API docs](https://finnhub.io/docs/api), [terms](https://finnhub.io/terms-of-service). Freshness labels are timestamp thresholds, not a promise of exchange-level live service. Preserve separate quote/target timestamps and attribution. The app currently has no authentication, saved watchlists, database, or production deployment configuration.
 
 ## Next steps
 
