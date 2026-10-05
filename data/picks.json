@@ -1,0 +1,171 @@
+{
+  "schemaVersion": 1,
+  "isDemo": true,
+  "picks": [
+    {
+      "id": "demo-1",
+      "rank": 1,
+      "symbol": "DEMOA",
+      "companyName": "Example Atlas Systems",
+      "currency": "USD",
+      "bucket": "core",
+      "entryZone": {
+        "low": 90.0,
+        "high": 97.0
+      },
+      "quote": {
+        "price": 100,
+        "asOf": "2026-06-11T14:00:00Z",
+        "source": "Fictional demo fixture"
+      },
+      "analystTargets": {
+        "low": 90,
+        "average": 120,
+        "high": 140,
+        "analystCount": 9,
+        "rating": "buy",
+        "asOf": "2026-06-10T14:00:00Z",
+        "source": "Fictional analyst consensus fixture",
+        "horizonMonths": 12
+      },
+      "thesis": "Illustrates a research idea to compare valuation, execution, and target assumptions.",
+      "risks": [
+        "Execution may fall short of growth assumptions.",
+        "Valuation and market conditions can change substantially."
+      ],
+      "updatedAt": "2026-06-11T14:00:00Z"
+    },
+    {
+      "id": "demo-2",
+      "rank": 2,
+      "symbol": "DEMOB",
+      "companyName": "Example Birch Energy",
+      "currency": "USD",
+      "bucket": "core",
+      "entryZone": {
+        "low": 45.0,
+        "high": 48.5
+      },
+      "quote": {
+        "price": 50,
+        "asOf": "2026-06-11T14:00:00Z",
+        "source": "Fictional demo fixture"
+      },
+      "analystTargets": {
+        "low": 40,
+        "average": 55,
+        "high": 65,
+        "analystCount": 10,
+        "rating": "buy",
+        "asOf": "2026-06-10T14:00:00Z",
+        "source": "Fictional analyst consensus fixture",
+        "horizonMonths": 12
+      },
+      "thesis": "Illustrates a research idea to compare valuation, execution, and target assumptions.",
+      "risks": [
+        "Execution may fall short of growth assumptions.",
+        "Valuation and market conditions can change substantially."
+      ],
+      "updatedAt": "2026-06-11T14:00:00Z"
+    },
+    {
+      "id": "demo-3",
+      "rank": 3,
+      "symbol": "DEMOC",
+      "companyName": "Example Cedar Labs",
+      "currency": "USD",
+      "bucket": "growth",
+      "entryZone": {
+        "low": 72.0,
+        "high": 77.6
+      },
+      "quote": {
+        "price": 80,
+        "asOf": "2026-06-11T14:00:00Z",
+        "source": "Fictional demo fixture"
+      },
+      "analystTargets": {
+        "low": 50,
+        "average": 112,
+        "high": 145,
+        "analystCount": 11,
+        "rating": "buy",
+        "asOf": "2026-06-10T14:00:00Z",
+        "source": "Fictional analyst consensus fixture",
+        "horizonMonths": 12
+      },
+      "thesis": "Illustrates a research idea to compare valuation, execution, and target assumptions.",
+      "risks": [
+        "Execution may fall short of growth assumptions.",
+        "Valuation and market conditions can change substantially."
+      ],
+      "updatedAt": "2026-06-11T14:00:00Z"
+    },
+    {
+      "id": "demo-4",
+      "rank": 4,
+      "symbol": "DEMOD",
+      "companyName": "Example Delta Robotics",
+      "currency": "USD",
+      "bucket": "speculative",
+      "entryZone": {
+        "low": 22.5,
+        "high": 24.25
+      },
+      "quote": {
+        "price": 25,
+        "asOf": "2026-06-11T14:00:00Z",
+        "source": "Fictional demo fixture"
+      },
+      "analystTargets": {
+        "low": 10,
+        "average": 40,
+        "high": 65,
+        "analystCount": 12,
+        "rating": "buy",
+        "asOf": "2026-06-10T14:00:00Z",
+        "source": "Fictional analyst consensus fixture",
+        "horizonMonths": 12
+      },
+      "thesis": "Illustrates a research idea to compare valuation, execution, and target assumptions.",
+      "risks": [
+        "Execution may fall short of growth assumptions.",
+        "Valuation and market conditions can change substantially."
+      ],
+      "updatedAt": "2026-06-11T14:00:00Z"
+    },
+    {
+      "id": "demo-5",
+      "rank": 5,
+      "symbol": "DEMOE",
+      "companyName": "Example Elm Networks",
+      "currency": "USD",
+      "bucket": "growth",
+      "entryZone": {
+        "low": 108.0,
+        "high": 116.4
+      },
+      "quote": {
+        "price": 120,
+        "asOf": "2026-06-11T14:00:00Z",
+        "source": "Fictional demo fixture"
+      },
+      "analystTargets": {
+        "low": 100,
+        "average": 114,
+        "high": 155,
+        "analystCount": 13,
+        "rating": "hold",
+        "asOf": "2026-06-10T14:00:00Z",
+        "source": "Fictional analyst consensus fixture",
+        "horizonMonths": 12
+      },
+      "thesis": "Illustrates a research idea to compare valuation, execution, and target assumptions.",
+      "risks": [
+        "Execution may fall short of growth assumptions.",
+        "Valuation and market conditions can change substantially."
+      ],
+      "updatedAt": "2026-06-11T14:00:00Z"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "name": "money-buckets",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "An extensible stock research dashboard with fictional demo data",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "start": "node scripts/serve.mjs",
+    "dev": "node scripts/serve.mjs",
+    "test": "node --test",
+    "build": "node scripts/build.mjs"
+  }
+}
