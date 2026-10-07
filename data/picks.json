@@ -5,8 +5,8 @@
     {
       "id": "demo-1",
       "rank": 1,
-      "symbol": "DEMOA",
-      "companyName": "Example Atlas Systems",
+      "symbol": "MSFT",
+      "companyName": "Microsoft Corporation",
       "currency": "USD",
       "bucket": "core",
       "entryZone": {
@@ -38,8 +38,8 @@
     {
       "id": "demo-2",
       "rank": 2,
-      "symbol": "DEMOB",
-      "companyName": "Example Birch Energy",
+      "symbol": "AAPL",
+      "companyName": "Apple Inc.",
       "currency": "USD",
       "bucket": "core",
       "entryZone": {
@@ -71,8 +71,8 @@
     {
       "id": "demo-3",
       "rank": 3,
-      "symbol": "DEMOC",
-      "companyName": "Example Cedar Labs",
+      "symbol": "NVDA",
+      "companyName": "NVIDIA Corporation",
       "currency": "USD",
       "bucket": "growth",
       "entryZone": {
@@ -104,8 +104,8 @@
     {
       "id": "demo-4",
       "rank": 4,
-      "symbol": "DEMOD",
-      "companyName": "Example Delta Robotics",
+      "symbol": "AMZN",
+      "companyName": "Amazon.com, Inc.",
       "currency": "USD",
       "bucket": "speculative",
       "entryZone": {
@@ -137,8 +137,8 @@
     {
       "id": "demo-5",
       "rank": 5,
-      "symbol": "DEMOE",
-      "companyName": "Example Elm Networks",
+      "symbol": "GOOGL",
+      "companyName": "Alphabet Inc.",
       "currency": "USD",
       "bucket": "growth",
       "entryZone": {
