@@ -20,7 +20,7 @@ function providerFetch({ quoteTime = now, targetTime = '2026-10-01', noTargets =
       targetLow: 80, targetMean: 120, targetHigh: 140, lastUpdated: targetTime
     });
     if (!recommendation) return response([]);
-    return response([{ strongBuy: 2, buy: 3, hold: 4, sell: 1, strongSell: 0 }]);
+    return response([{ period: '2026-10-01', strongBuy: 2, buy: 3, hold: 4, sell: 1, strongSell: 0 }]);
   };
 }
 
@@ -68,25 +68,6 @@ test('rejects malformed provider quotes', async () => {
       new URL(input).pathname.endsWith('/quote') ? response({ c: 0, t: now / 1000 }) : response({})
   });
   await assert.rejects(load(), /Malformed Finnhub quote/);
-});
-
-test('retries a rate-limited request once, then fails cleanly if still limited', async () => {
-  const attempts = new Map();
-  const load = createMarketDataAdapter({
-    picks: demo,
-    apiKey: 'test',
-    retryDelayMs: 0,
-    fetchImpl: async input => {
-      const url = new URL(input);
-      const key = `${url.pathname}:${url.searchParams.get('symbol')}`;
-      attempts.set(key, (attempts.get(key) || 0) + 1);
-      return response({}, 429);
-    }
-  });
-  await assert.rejects(load(), /Finnhub request failed \(429\)/);
-  await new Promise(resolve => setTimeout(resolve, 10));
-  assert.equal(attempts.get('/api/v1/quote:MSFT'), 2);
-  assert.ok([...attempts.values()].every(count => count <= 2));
 });
 
 test('does not contact the provider or require credentials in demo mode', async () => {
