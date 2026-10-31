@@ -68,3 +68,7 @@ See the repository's [issues](https://github.com/greth-art/Money-buckets/issues)
 ## Verification and release limits
 
 `npm test` runs offline regression tests with injected provider responses, a local HTTP server, and a minimal DOM contract. It does not certify actual Finnhub account entitlements, exchange delays, or browser layout/accessibility. Before enabling provider mode for real use, verify authenticated responses for all three endpoints with your account and confirm data licensing. Timezone-less provider datetime strings are rejected rather than assigned an undocumented timezone. CI must pass on the current PR head before merging.
+
+## Money Buckets 2 — iPhone-first preview
+
+A separate mobile-first app lives in [`mobile-v2/`](mobile-v2/README.md). Run `npm start` and open `http://127.0.0.1:3000/mobile-v2/`. It shares the original Finnhub backend and adds a mobile dashboard and rate-limited one-tap refresh. The original dashboard at `/` is unchanged. The mobile interface is **not deployed** and does not make its sample rankings live trading advice.
