@@ -11,7 +11,7 @@ const profile = await mkdtemp(join(tmpdir(), 'buckets-chrome-'));
 const output = 'browser-artifacts';
 await mkdir(output, { recursive: true });
 const server = spawn(process.execPath, ['scripts/serve.mjs', 'dist'], {
-  env: { ...process.env, PORT: '31428', HOST: '127.0.0.1', FINNHUB_API_KEY: '' },
+  env: { ...process.env, PORT: '31428', HOST: '127.0.0.1', FINNHUB_API_KEY: '', APP_VARIANT: 'mobile-v2' },
   stdio: 'ignore'
 });
 const chrome = spawn(process.env.CHROME_BIN || 'google-chrome', [
@@ -70,7 +70,7 @@ async function state() {
 }
 
 try {
-  await waitUntil(async () => (await fetch('http://127.0.0.1:31428/mobile-v2/')).ok, 'Node server');
+  await waitUntil(async () => (await fetch('http://127.0.0.1:31428/')).ok, 'Node server');
   const portFile = join(profile, 'DevToolsActivePort');
   const port = await waitUntil(async () => {
     const file = await readFile(portFile, 'utf8');
@@ -101,7 +101,7 @@ try {
     await cdp('Emulation.setDeviceMetricsOverride', {
       width, height: 844, deviceScaleFactor: 3, mobile: true
     });
-    await cdp('Page.navigate', { url: 'http://127.0.0.1:31428/mobile-v2/' });
+    await cdp('Page.navigate', { url: 'http://127.0.0.1:31428/' });
     const page = await waitUntil(async () => {
       const current = await state();
       return current.cards === 5 && current.mode === 'SAMPLE MODE' ? current : null;
