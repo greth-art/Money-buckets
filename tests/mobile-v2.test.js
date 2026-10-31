@@ -94,3 +94,22 @@ test('mobile app script has valid JavaScript syntax for its module entry', () =>
   const path = fileURLToPath(new URL('../mobile-v2/app.js', import.meta.url));
   assert.doesNotThrow(() => execFileSync(process.execPath, ['--check', path]));
 });
+
+test('separate beta startup serves mobile v2 at root while sharing secured API', async t => {
+  const server = await createAppServer({ appVariant: 'mobile-v2' });
+  server.listen(0, '127.0.0.1');
+  await once(server, 'listening');
+  t.after(async () => { server.closeAllConnections(); await new Promise(resolve => server.close(resolve)); });
+  const base = 'http://127.0.0.1:' + server.address().port;
+  const home = await (await fetch(base + '/')).text();
+  assert.match(home, /Money Buckets 2/);
+  assert.match(home, /mobile-first stock research/i);
+  const legacy = await (await fetch(base + '/index.html')).text();
+  assert.match(legacy, /Money Buckets 2/);
+  for (const path of ['/app.js', '/styles.css', '/icon.svg', '/manifest.webmanifest']) {
+    assert.equal((await fetch(base + path)).status, 200, path);
+  }
+  const prices = await (await fetch(base + '/api/picks')).json();
+  assert.equal(prices.isDemo, true);
+  await assert.rejects(createAppServer({ appVariant: 'untrusted' }), /Invalid app variant/);
+});
