@@ -25,7 +25,7 @@ test('Money Buckets 2 assets render from an isolated route without exposing secr
   ]) {
     const response = await fetch(base + path);
     assert.equal(response.status, 200, path);
-    assert.match(response.headers.get('content-type'), new RegExp(type), path);
+    assert.ok(response.headers.get('content-type')?.startsWith(type), path);
   }
   for (const path of ['/mobile-v2/.env', '/mobile-v2/../scripts/serve.mjs', '/.env', '/scripts/market-data.mjs']) {
     assert.equal((await fetch(base + path)).status, 404, path);
