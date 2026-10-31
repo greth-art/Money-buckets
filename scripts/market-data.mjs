@@ -90,6 +90,12 @@ export function createMarketDataAdapter({
           signal: AbortSignal.timeout(timeoutMs), headers: { 'X-Finnhub-Token': apiKey }
         });
         if (!response.ok) {
+          // Analyst coverage is optional and may be unavailable on the account's plan.
+          // Keep validated quotes usable, but never hide quote/auth or rate-limit failures.
+          if (path !== 'quote' && [402, 403, 404].includes(response.status)) {
+            await response.body?.cancel();
+            return path === 'stock/recommendation' ? [] : {};
+          }
           const delay = retryAfterMs(response.headers?.get?.('retry-after'), now());
           if (response.status === 429 || delay > 0) {
             cooldownUntil = Math.max(cooldownUntil, now() + Math.max(delay, failureCooldownMs));
