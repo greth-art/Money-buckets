@@ -10,9 +10,9 @@ test('upside handles positive, negative, and missing coverage',()=>{
   assert.equal(upsidePercent({...data.picks[0],analystTargets:null}),null);
 });
 test('search and bucket combine without mutating source order',()=>{
-  assert.equal(selectPicks(data.picks,{query:'  cedar ',bucket:'growth'})[0].symbol,'DEMOC');
-  assert.equal(selectPicks(data.picks,{query:'cedar',bucket:'core'}).length,0);
-  assert.equal(selectPicks(data.picks,{sort:'upside'})[0].symbol,'DEMOD');
+  assert.equal(selectPicks(data.picks,{query:'  nvidia ',bucket:'growth'})[0].symbol,'NVDA');
+  assert.equal(selectPicks(data.picks,{query:'nvidia',bucket:'core'}).length,0);
+  assert.equal(selectPicks(data.picks,{sort:'upside'})[0].symbol,'AMZN');
   assert.equal(data.picks[0].rank,1);
   assert.equal(selectPicks([...data.picks].reverse(),{sort:'rank'})[0].rank,1);
 });

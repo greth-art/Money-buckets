@@ -2,11 +2,11 @@
 <html lang="en">
 <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="Money Buckets stock research starter dashboard"><title>Money Buckets | Research desk</title><link rel="stylesheet" href="./src/styles.css"><script type="module" src="./src/app.js"></script></head>
 <body><main>
-<header><a class="brand" href="./">◈ Money Buckets</a><span class="badge">STARTER / DEMO</span></header>
+<header><a class="brand" href="./">◈ Money Buckets</a><span id="mode" class="badge">DEMO</span></header>
 <section class="intro"><p class="eyebrow">YOUR RESEARCH DESK</p><h1>Make room for<br>better research.</h1><p>Compare stock ideas, entry zones, and analyst expectations in one place.</p></section>
-<aside class="notice"><strong>Fictional demo data.</strong> Symbols, prices, rankings, and analyst targets are illustrative, not live market data or investment recommendations.</aside>
+<aside id="notice" class="notice"><strong>Fictional demo data.</strong> Prices, rankings, and analyst targets are illustrative, not live market data or investment recommendations.</aside>
 <section class="toolbar" aria-label="Filter stock picks"><label>Search symbol or company<input id="search" type="search" placeholder="Find a stock…"></label><label>Bucket<select id="bucket"><option value="all">All buckets</option><option value="core">Core</option><option value="growth">Growth</option><option value="speculative">Speculative</option></select></label><label>Sort by<select id="sort"><option value="rank">Editorial rank</option><option value="upside">Average target upside</option><option value="symbol">Symbol A–Z</option></select></label></section>
 <section aria-labelledby="picks-title"><div class="section-heading"><h2 id="picks-title">Stock watchlist</h2><p id="status" role="status" aria-live="polite">Loading sample picks…</p></div><div id="picks" class="grid"></div><button id="retry" hidden>Retry loading</button></section>
-<footer>Research, then decide. Targets are estimates, not guarantees. Demo upside = (average target ÷ quote − 1) × 100.</footer>
-<noscript>Please enable JavaScript to view the sample dashboard.</noscript>
+<footer>Research, then decide. Targets are estimates, not guarantees. Upside = (average target ÷ quote − 1) × 100.</footer>
+<noscript>Please enable JavaScript to view the dashboard.</noscript>
 </main></body></html>
