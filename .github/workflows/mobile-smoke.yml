@@ -1,0 +1,44 @@
+name: Money Buckets 2 mobile smoke
+
+on:
+  push:
+    branches: ['feature/money-buckets-mobile-v2']
+  pull_request:
+    paths:
+      - 'mobile-v2/**'
+      - 'scripts/verify-mobile.mjs'
+      - 'scripts/serve.mjs'
+      - 'scripts/build.mjs'
+      - 'src/**'
+      - '.github/workflows/mobile-smoke.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  mobile-browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Unit regression and production build
+        run: |
+          npm test
+          npm run build
+      - name: Confirm Chromium is installed
+        run: |
+          which google-chrome
+          google-chrome --version
+      - name: Simulated iPhone mobile browser smoke
+        run: node scripts/verify-mobile.mjs
+      - name: Save mobile screenshots for review
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: money-buckets-2-mobile-screenshots
+          path: browser-artifacts/*.png
+          if-no-files-found: ignore

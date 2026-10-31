@@ -72,7 +72,8 @@ async function settleAll(promises) {
 
 export function createMarketDataAdapter({
   picks, apiKey, fetchImpl = fetch, now = Date.now, timeoutMs = 5000,
-  cacheTtlMs = 5 * 60_000, retryDelayMs = 250, failureCooldownMs = 60_000,
+  cacheTtlMs = 5 * 60_000, manualRefreshMinIntervalMs = 60_000,
+  retryDelayMs = 250, failureCooldownMs = 60_000,
   sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
 }) {
   let cached;
@@ -135,9 +136,11 @@ export function createMarketDataAdapter({
     return validateDataset(result);
   }
 
-  return async function load() {
+  return async function load({ force = false } = {}) {
     if (!apiKey) return null;
-    if (cached && now() - cached.fetchedAt < cacheTtlMs) return withFreshness(cached.dataset, now());
+    // A user-initiated refresh may bypass the five-minute cache, but never the
+    // shared one-minute minimum interval or provider cooldown.
+    if (cached && now() - cached.fetchedAt < (force ? manualRefreshMinIntervalMs : cacheTtlMs)) return withFreshness(cached.dataset, now());
     if (inFlight) return inFlight;
     if (now() < cooldownUntil) {
       if (cached) return withFreshness(cached.dataset, now(), true);
