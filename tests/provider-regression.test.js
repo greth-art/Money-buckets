@@ -195,3 +195,53 @@ test('AbortSignal bounds hanging body reads and uses a new signal for the retry'
   assert.equal(s.calls.length, 30);
   assert.notEqual(s.calls[0].options.signal, s.calls[15].options.signal);
 });
+
+
+test('optional analyst endpoint entitlement errors preserve validated quotes and honest missing coverage', async () => {
+  for (const status of [402, 403, 404]) {
+    const s = setup();
+    s.set(async url => pathOf(url) === 'quote'
+      ? reply({ c: 100, t: T / 1000 })
+      : reply({ error: 'not entitled' }, status));
+    const result = await s.load();
+    assert.equal(result.isDemo, false);
+    assert.equal(result.picks[0].quote.freshness, 'live');
+    assert.equal(result.picks[0].analystTargets, null);
+    assert.equal(result.picks[0].recommendation, null);
+    assert.equal(s.calls.length, 15);
+  }
+
+  const onlyTargetsUnavailable = setup();
+  onlyTargetsUnavailable.set(async url => reply(pathOf(url) === 'quote'
+    ? { c: 100, t: T / 1000 }
+    : pathOf(url) === 'price-target' ? { error: 'not entitled' } : [recommendation],
+    pathOf(url) === 'price-target' ? 403 : 200));
+  const p = (await onlyTargetsUnavailable.load()).picks[0];
+  assert.equal(p.analystTargets, null);
+  assert.equal(p.recommendation.analystCount, 10);
+
+  const onlyRecommendationsUnavailable = setup();
+  onlyRecommendationsUnavailable.set(async url => reply(pathOf(url) === 'quote'
+    ? { c: 100, t: T / 1000 }
+    : pathOf(url) === 'price-target' ? targets : { error: 'not entitled' },
+    pathOf(url) === 'recommendation' ? 403 : 200));
+  const q = (await onlyRecommendationsUnavailable.load()).picks[0];
+  assert.equal(q.analystTargets.average, 120);
+  assert.equal(q.analystTargets.analystCount, null);
+  assert.equal(q.analystTargets.rating, null);
+  assert.equal(q.recommendation, null);
+});
+
+test('authorization and rate limits on quotes remain fatal; analyst rate limits are not silently hidden', async () => {
+  for (const status of [401, 403, 429]) {
+    const s = setup();
+    s.set(async url => reply(pathOf(url) === 'quote' ? {} : targets,
+      pathOf(url) === 'quote' ? status : 200));
+    await assert.rejects(s.load());
+  }
+  const s = setup();
+  s.set(async url => reply(pathOf(url) === 'recommendation' ? {} :
+    pathOf(url) === 'quote' ? { c: 100, t: T / 1000 } : targets,
+    pathOf(url) === 'recommendation' ? 429 : 200));
+  await assert.rejects(s.load());
+});
