@@ -10,14 +10,15 @@ export async function createAppServer({ root = resolve('.'), apiKey, fetchImpl }
     picks: demo,
     apiKey, fetchImpl
   });
-  const types = {'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.json':'application/json; charset=utf-8'};
+  const types = {'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.json':'application/json; charset=utf-8','.svg':'image/svg+xml','.webmanifest':'application/manifest+json'};
   return createServer(async (req,res) => {
     try {
       if (!['GET','HEAD'].includes(req.method)) { res.writeHead(405,{'Allow':'GET, HEAD'}).end(); return; }
-      const pathname = decodeURIComponent(new URL(req.url,'http://localhost').pathname);
+      const url = new URL(req.url,'http://localhost');
+      const pathname = decodeURIComponent(url.pathname);
       if (pathname === '/api/picks') {
         try {
-          const data = await loadMarketData() || demo;
+          const data = await loadMarketData({ force: url.searchParams.get('refresh') === '1' }) || demo;
           res.writeHead(200, {'Content-Type': types['.json'], 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff'});
           res.end(req.method === 'HEAD' ? undefined : JSON.stringify(data));
         } catch {
@@ -25,9 +26,9 @@ export async function createAppServer({ root = resolve('.'), apiKey, fetchImpl }
         }
         return;
       }
-      const relative = pathname === '/' ? 'index.html' : pathname.slice(1);
+      const relative = pathname === '/' ? 'index.html' : (pathname === '/mobile-v2' || pathname === '/mobile-v2/' ? 'mobile-v2/index.html' : pathname.slice(1));
       // Only serve public app assets; never source-control, secrets, or scripts.
-      if (!(relative === 'index.html' || /^(src|data)\/[a-zA-Z0-9_./-]+$/.test(relative)) || relative.split('/').some(p => p.startsWith('.'))) { res.writeHead(404).end('Not found'); return; }
+      if (!(relative === 'index.html' || /^(src|data|mobile-v2)\/[a-zA-Z0-9_./-]+$/.test(relative)) || relative.split('/').some(p => p.startsWith('.'))) { res.writeHead(404).end('Not found'); return; }
       const file = resolve(root,relative);
       if (!file.startsWith(root + sep)) { res.writeHead(404).end('Not found'); return; }
       const body = await readFile(file);
