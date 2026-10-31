@@ -1,6 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { once } from 'node:events';
+import { execFileSync } from 'node:child_process';
+import { fileURLToPath } from 'node:url';
 import { readFile } from 'node:fs/promises';
 import { createAppServer } from '../scripts/serve.mjs';
 import { createMarketDataAdapter } from '../scripts/market-data.mjs';
@@ -86,4 +88,9 @@ test('manual refresh skips regular TTL only after conservative 60-second throttl
   time += 30_000;
   await load({ force: true });
   assert.equal(requests, 45);
+});
+
+test('mobile app script has valid JavaScript syntax for its module entry', () => {
+  const path = fileURLToPath(new URL('../mobile-v2/app.js', import.meta.url));
+  assert.doesNotThrow(() => execFileSync(process.execPath, ['--check', path]));
 });
