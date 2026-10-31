@@ -39,3 +39,17 @@ No API key is shipped to the browser. Without the Finnhub key, the server provid
 - Tests: `tests/mobile-v2.test.js` and existing tests
 
 The app is research-only and does not connect to a brokerage or place trades.
+
+## Dedicated private beta deployment
+
+To have a **new URL open Money Buckets 2 at /**, deploy this branch as a separate Node.js service with these environment settings (in the host's dashboard, not checked into Git):
+
+- Start command: `npm start`
+- `APP_VARIANT=mobile-v2` — serves the new design at `/`; the original app still uses the default `classic` mode.
+- `HOST=0.0.0.0` (or the host's required bind address) and the platform-provided `PORT`.
+- `FINNHUB_API_KEY` — configure as a private server-side **secret** in the *new* beta environment. Another site's existing secret usually is not inherited automatically. Never add a key to GitHub code, front-end files, screenshots, or chat.
+- Set access control to **owner only / invite-only**, using the hosting platform's authenticated sharing. A random-looking URL is **not** an access-control system. Do not enable provider quotes for other testers until market-data sharing rights are confirmed.
+
+The mobile app and `/api/picks` are served from the same origin, so no browser API token or cross-site API URL is needed. For a static-only host, show clearly marked sample mode instead of claiming a live integration. Don't assume that an existing ChatGPT Site is linked to this GitHub branch: check the hosting project directly.
+
+Before inviting anyone, check from an iPhone on cellular and Wi-Fi: signed-in-only access, current quote prices and timestamps, stale/missing analyst labels, the Refresh button, safe-area spacing, viewport overflow, keyboard focus/VoiceOver, and the Safari Share → Add to Home Screen flow. Save the actual published URL and version after confirming deployment.
